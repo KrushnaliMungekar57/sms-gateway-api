@@ -1,0 +1,103 @@
+{
+  "info": {
+    "name": "Mock SMS Gateway API",
+    "description": "Collection for testing the Mock SMS Gateway API endpoints — send SMS, check status, and list messages.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "message_id",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Send SMS",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone_number\": \"9876543210\",\n  \"message\": \"Your OTP is 4321\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/send-sms",
+          "host": ["{{base_url}}"],
+          "path": ["send-sms"]
+        }
+      }
+    },
+    {
+      "name": "Send SMS - Invalid Phone Number",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone_number\": \"123\",\n  \"message\": \"Test\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/send-sms",
+          "host": ["{{base_url}}"],
+          "path": ["send-sms"]
+        }
+      }
+    },
+    {
+      "name": "Get Message Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/status/{{message_id}}",
+          "host": ["{{base_url}}"],
+          "path": ["status", "{{message_id}}"]
+        }
+      }
+    },
+    {
+      "name": "List All Messages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/messages",
+          "host": ["{{base_url}}"],
+          "path": ["messages"]
+        }
+      }
+    },
+    {
+      "name": "List Messages - Filter by Status (failed)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/messages?status=failed",
+          "host": ["{{base_url}}"],
+          "path": ["messages"],
+          "query": [
+            {
+              "key": "status",
+              "value": "failed"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
